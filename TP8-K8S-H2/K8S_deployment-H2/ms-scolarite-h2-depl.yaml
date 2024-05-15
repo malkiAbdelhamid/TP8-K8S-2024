@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-scolarite-h2-depl
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ms-scolarite-h2-pod
+  template:
+    metadata:
+      labels:
+        app: ms-scolarite-h2-pod
+    spec:
+      containers:
+        - name: ms-scolarite-h2-container
+          image: ms-scolarite-h2-image
+          ports:
+            - containerPort: 8082
+          
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ms-scolarite-h2-srv
+spec:
+  selector:
+    app: ms-scolarite-h2-pod
+  ports:
+    - port: 8082
+      targetPort: 8082
+      protocol: TCP
+  type: LoadBalancer
+  

@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1 # for versions before 1.14 use extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-gateway-ms-h2
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+    - http:
+         paths:
+          - path: /service-formation-h2/(.+)
+            pathType: Prefix
+            backend:
+              service:
+                 name: ms-formation-h2-srv
+                 port: 
+                  number: 8081
+
+          - path: /service-scolarite-h2/(.+)
+            pathType: Prefix
+            backend:
+              service:
+                 name: ms-scolarite-h2-srv
+                 port: 
+                  number: 8082
+
+          - path: /service-bourse-h2/(.+)
+            pathType: Prefix
+            backend:
+              service:
+                name: ms-bourse-h2-srv
+                port:
+                  number: 8083
+
+

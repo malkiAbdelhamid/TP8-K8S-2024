@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1 # for versions before 1.14 use extensions/v1beta1
+kind: Ingress
+metadata:
+  name: gateway-mysql
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+    - http:
+         paths:
+          - path: /service-formation-mysql/(.+)
+            pathType: Prefix
+            backend:
+              service:
+                 name: ms-formation-mysql-srv
+                 port: 
+                  number: 7081
+
+          - path: /service-scolarite-mysql/(.+)
+            pathType: Prefix
+            backend:
+              service:
+                 name: ms-scolarite-mysql-srv
+                 port: 
+                  number: 7082
+
+          - path: /service-bourse-mysql/(.+)
+            pathType: Prefix
+            backend:
+              service:
+                name: ms-bourse-mysql-srv
+                port:
+                  number: 7083
+          
